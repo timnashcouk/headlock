@@ -4,7 +4,7 @@ Tags: Security
 Requires: 5.5
 
 **This is framework not a drop in and work plugin**
-Security Headers provides some basic our of the box security headers and lots of additional customisation options. 
+Security Headers provides some basic out of the box security headers and lots of additional customisation options. 
 Note this has no GUI and is meant to be customised via add_filter option
 
 Out of the box it provides sane defaults for:
