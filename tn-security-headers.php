@@ -46,7 +46,6 @@ function tn_enabled_security_headers(){
 
 				// Filter the final Output string should we want to.
 				$header = apply_filters( $function_call.'_output' , $header );
-
 				// Set header
 				header( $header );
 
@@ -223,7 +222,7 @@ function tn_referrer_policy() {
 	// Filter Policy Types should you wish to remove less strict options or add new ones
 	$referrer_policy_types = apply_filters( 'tn_referrer_policy_types', $referrer_policy_types );
 
-	if( in_array( $referrer_policy, $referrer_policy_types ) ){
+	if( in_array( $referrer_policy, $referrer_policy_types, true ) ){
 		return 'Referrer-Policy: '. $referrer_policy;
 	}else{
 		// Not a valid type, return without header
@@ -388,7 +387,7 @@ function _generate_csp_header( array $policies, array $sources ){
  * 
  */
 function _clean_csp_values( ?string $value, array $sources ){
-	if( !empty( $value ) && in_array( $value, $sources ) ){
+	if( !empty( $value ) && in_array( $value, $sources, true ) ){
 		if( false === filter_var( $value, FILTER_VALIDATE_URL ) ){
 			$value = "'" .$value. "'";
 		}
