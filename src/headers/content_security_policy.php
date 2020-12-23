@@ -3,7 +3,12 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-
+/**
+ * Sets the  Content Security Policy Header
+ * Filter: headlock_content_security_policy
+ *
+ * @return string
+ */
 function headlock_content_security_policy() {
 	/*
 	 * Note unlike other Headers this one defaults to reporting only!
