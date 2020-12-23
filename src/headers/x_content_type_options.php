@@ -19,5 +19,5 @@ function headlock_x_content_type_options() {
 	// Filter arguments for development and testing
 	$content_type_option = apply_filters( 'headlock_x_content_type_options', $content_type_option );
 
-	return 'X-Content-Type-Options: '. $content_type_option;
+	return 'X-Content-Type-Options: ' . $content_type_option;
 }

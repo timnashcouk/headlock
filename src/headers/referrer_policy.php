@@ -27,15 +27,15 @@ function headlock_referrer_policy() {
 		'same-origin',
 		'strict-origin',
 		'strict-origin-when-cross-origin',
-		'unsafe-url'
+		'unsafe-url',
 	);
 
 	// Filter Policy Types should you wish to remove less strict options or add new ones
 	$referrer_policy_types = apply_filters( 'headlock_referrer_policy_types', $referrer_policy_types );
 
-	if( in_array( $referrer_policy, $referrer_policy_types, true ) ){
-		return 'Referrer-Policy: '. $referrer_policy;
-	}else{
+	if ( in_array( $referrer_policy, $referrer_policy_types, true ) ) {
+		return 'Referrer-Policy: ' . $referrer_policy;
+	} else {
 		// Not a valid type, return without header
 		return;
 	}

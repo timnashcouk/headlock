@@ -21,18 +21,18 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Auto loader for header files
  * Loads the individual headers stored in /headers folder along with their helper functions
  */
-function headlock_auto_loader(){
-    // Prepare list of files
-    $files = glob( plugin_dir_path( __FILE__ ) . 'headers/*.php' );
-    // Assume we hace a file
-    if ( ! empty( $files ) ) {
-        foreach ( $files as $file ) {
-            // require this file
-            require_once( $file );
-        }
-    }
+function headlock_auto_loader() {
+	// Prepare list of files
+	$files = glob( plugin_dir_path( __FILE__ ) . 'headers/*.php' );
+	// Assume we hace a file
+	if ( ! empty( $files ) ) {
+		foreach ( $files as $file ) {
+			// require this file
+			require_once $file;
+		}
+	}
 }
-add_action('plugins_loaded', 'headlock_auto_loader');
+add_action( 'plugins_loaded', 'headlock_auto_loader' );
 
 /*
  * Enables and Disabled Security Headers and sets them
@@ -40,41 +40,41 @@ add_action('plugins_loaded', 'headlock_auto_loader');
  * @note outputs the actual headers.
  * @return null - writes string to headers
  */
-function headlock_enabled_security_headers(){
+function headlock_enabled_security_headers() {
 
 	// Enable Safe to use headers
 	$enabled_security_headers = array(
 		'x_frame_options',
 		'x_xss_protection',
 		'x_content_type_options',
-		'referrer_policy'
+		'referrer_policy',
 	);
 
 	// Filter to enable additional options such as HSTS or CSP
 	$enabled_security_headers = apply_filters( 'headlock_enabled_security_headers', $enabled_security_headers );
 
-	if( is_array($enabled_security_headers ) ){
-		foreach( $enabled_security_headers as $security_header ){
+	if ( is_array( $enabled_security_headers ) ) {
+		foreach ( $enabled_security_headers as $security_header ) {
 
 			// Fix for earlier versions, which used a different format for the array
 			$security_header = strtolower( $security_header );
 			$security_header = str_replace( '-', '_', $security_header );
 
 			// Generate our calls to our function
-			$function_call = 'headlock_'.$security_header;
-			if( function_exists( $function_call ) ){
+			$function_call = 'headlock_' . $security_header;
+			if ( function_exists( $function_call ) ) {
 
 				// Get the final header from function
 				$header = $function_call();
 
 				// Filter the final Output string should we want to.
-				$header = apply_filters( $function_call.'_output' , $header );
+				$header = apply_filters( $function_call . '_output', $header );
 				// Set header
 				header( $header );
 
 				// Do any additional actions
 				// Indivdual headers hook
-				do_action( $function_call.'_additional', $header );
+				do_action( $function_call . '_additional', $header );
 				// Generic Hook
 				do_action( 'headlock_security_headers', $security_header, $header );
 			}
@@ -91,15 +91,14 @@ add_action( 'send_headers', 'headlock_enabled_security_headers' );
  * @param string $filter - Debug message
  * @return null - writes to error_log
  */
-function _headlock_debug_helper( ?string $filter = 'Headlock', ?string $debug, $data = false ){
-    if( defined('WP_DEBUG') && WP_DEBUG === true ){
-        if( isset($data) ){
-            $data = json_encode($data);
-        }else{
-            $data = '';
-        }
-        $str = 'Headlock Warning - '.$filter.' - '.$debug.' '.$data;
-        return error_log( $str );
-    }
-    return;
+function _headlock_debug_helper( ?string $filter = 'Headlock', ?string $debug, $data = false ) {
+	if ( defined( 'WP_DEBUG' ) && WP_DEBUG === true ) {
+		if ( isset( $data ) ) {
+			$data = wp_json_encode( $data );
+		} else {
+			$data = '';
+		}
+		$str = 'Headlock Warning - ' . $filter . ' - ' . $debug . ' ' . $data;
+		return error_log( $str );
+	}
 }

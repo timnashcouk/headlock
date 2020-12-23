@@ -18,8 +18,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 function headlock_x_xss_protection() {
 	// Standard Defaults for production
 	$xss_protection_args = array(
-		'level' 	=> 1,
-		'block' 	=> true,
+		'level' => 1,
+		'block' => true,
 	);
 
 	// Filter arguments for development and testing
@@ -28,18 +28,18 @@ function headlock_x_xss_protection() {
 	//Begin setting header string
 	$header = 'X-Xss-Protection: ';
 
-	if( isset( $xss_protection_args['level'] ) &&
+	if ( isset( $xss_protection_args['level'] ) &&
 		is_numeric( $xss_protection_args['level'] )
-		){
-			$header = $header . $xss_protection_args['level'].'; ';
-	}else{
+		) {
+			$header = $header . $xss_protection_args['level'] . '; ';
+	} else {
 		// level is a requirement for this header
 		return;
 	}
 
 	// Include if we wish to include block
-	if( isset( $xss_protection_args['block'] ) &&
-		true === $xss_protection_args['block'] ){
+	if ( isset( $xss_protection_args['block'] ) &&
+		true === $xss_protection_args['block'] ) {
 		$header = $header . 'mode=block';
 	}
 
