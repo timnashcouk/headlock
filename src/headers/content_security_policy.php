@@ -55,7 +55,7 @@ function headlock_content_security_policy() {
 		'unsafe-hashes',
 		'none',
 		'strict-dynamic',
-		'report-sampple',
+		'report-sample',
 		get_home_url(),
 	);
 
