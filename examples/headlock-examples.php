@@ -16,7 +16,13 @@
   */
 function headlock_filter_enabled_security_header( $security_headers ){
     // Append our headers to the list
-    array_push($security_headers, 'content-security-policy', 'strict-transport-security', 'report-to', 'nel');
+	array_push($security_headers,
+			'content-security-policy',
+			'strict-transport-security',
+			'report-to',
+			'nel',
+			'permissions_policy'
+	);
     return $security_headers;
  }
 add_filter( 'headlock_enabled_security_headers', 'headlock_filter_enabled_security_header', 1 );
@@ -63,6 +69,17 @@ function headlock_filter_nel( $nel ){
     return $nel;
 }
 add_filter( 'headlock_nel', 'headlock_filter_nel', 1);
+
+function headlock_filter_permissions_policy( $permssions ){
+    $permssions = array(
+		'camera' => array(false),
+		'geolocation' => array('*'),
+		'fullscreen' => array('self', 'https://timnash.co.uk')
+    );
+    return $permssions;
+}
+add_filter( 'headlock_permissions_policy', 'headlock_filter_permissions_policy', 1);
+
  /*
   * Example of Adding a new source to CSP
   * In this case we are allowing requests from https://timnash.co.uk to be available for use in the policy
@@ -70,11 +87,12 @@ add_filter( 'headlock_nel', 'headlock_filter_nel', 1);
   * @param array - Existing Sources
   * @return array - Modified Source Array
   */
-function headlock_filter_content_security_policy_sources( $sources ){
+function headlock_filter_policy_sources( $sources ){
     array_push($sources, 'https://timnash.co.uk' );
     return $sources;
 }
-add_filter( 'headlock_content_security_policy_sources', 'headlock_filter_content_security_policy_sources', 1 );
+add_filter( 'headlock_content_security_policy_sources', 'headlock_filter_policy_sources', 1 );
+add_filter( 'headlock_permissions_policy_sources', 'headlock_filter_policy_sources', 1 );
 
  /*
   * Example of Adding a new section to a CSP
