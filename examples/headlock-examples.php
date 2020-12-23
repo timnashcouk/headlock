@@ -16,7 +16,7 @@
   */
 function headlock_filter_enabled_security_header( $security_headers ){
     // Append our headers to the list
-    array_push($security_headers, 'content-security-policy', 'strict-transport-security' );
+    array_push($security_headers, 'content-security-policy', 'strict-transport-security',  'report-to');
     return $security_headers;
  }
 add_filter( 'headlock_enabled_security_headers', 'headlock_filter_enabled_security_header', 1 );
@@ -37,6 +37,23 @@ function headlock_filter_strict_transport_security( $hsts ){
    return $hsts;
 }
 add_filter( 'headlock_strict_transport_security', 'headlock_filter_strict_transport_security', 1 );
+
+function headlock_filter_report_to_groups( $groups ){
+
+    $group = array(
+        'default',
+        '3600',
+        array(
+            array(
+                'url',
+                'https://example.com/report-uri'
+            )
+        ),
+        true
+    );
+    return $groups[] = $group;
+}
+add_filter( 'headlock_reporting_to', 'headlock_filter_report_to_groups', 1);
 
  /*
   * Example of Adding a new source to CSP
