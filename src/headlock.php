@@ -7,7 +7,7 @@
  * Author URI:      https://timnash.co.uk
  * Text Domain:     headlock
  * Domain Path:     /languages
- * Version:         0.4.0
+ * Version:         0.9.0
  *
  * @package         headlock
  */
