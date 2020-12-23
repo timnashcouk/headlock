@@ -139,12 +139,12 @@ function _generate_csp_header( array $policies, array $sources ) {
 		if ( is_array( $value ) ) {
 			$r = array();
 			foreach ( $value as $source ) {
-				$r[] = _clean_csp_values( $source, $sources );
+				$r[] = _headlock_encode_values( $source, $sources );
 			}
 			$content = implode( ' ', $r );
 		} else {
 			// Hopefully we have a single string
-			$content = _clean_csp_values( $value, $sources );
+			$content = _headlock_encode_values( $value, $sources );
 		}
 
 		// Is the Policy set, and is it in our sources list
@@ -154,20 +154,4 @@ function _generate_csp_header( array $policies, array $sources ) {
 	}
 
 		return $header;
-}
-
-/*
- * Helper function for validating and formatting values
- *
- * @params sting|null $value, array $sources
- * @return string - Formatted String
- *
- */
-function _clean_csp_values( ?string $value, array $sources ) {
-	if ( ! empty( $value ) && in_array( $value, $sources, true ) ) {
-		if ( false === filter_var( $value, FILTER_VALIDATE_URL ) ) {
-			$value = "'" . $value . "'";
-		}
-		return $value;
-	}
 }

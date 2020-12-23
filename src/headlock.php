@@ -102,3 +102,19 @@ function _headlock_debug_helper( ?string $filter = 'Headlock', ?string $debug, $
 		return error_log( $str );
 	}
 }
+
+/*
+ * Helper function for validating and formatting values
+ *
+ * @params sting|null $value, array $sources
+ * @return string - Formatted String
+ *
+ */
+function _headlock_encode_values( ?string $value, array $sources ) {
+	if ( ! empty( $value ) && in_array( $value, $sources, true ) ) {
+		if ( false === filter_var( $value, FILTER_VALIDATE_URL ) ) {
+			$value = "'" . $value . "'";
+		}
+		return $value;
+	}
+}
