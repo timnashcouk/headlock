@@ -16,7 +16,7 @@
   */
 function headlock_filter_enabled_security_header( $security_headers ){
     // Append our headers to the list
-    array_push($security_headers, 'content-security-policy', 'strict-transport-security',  'report-to');
+    array_push($security_headers, 'content-security-policy', 'strict-transport-security', 'report-to', 'nel');
     return $security_headers;
  }
 add_filter( 'headlock_enabled_security_headers', 'headlock_filter_enabled_security_header', 1 );
@@ -55,6 +55,14 @@ function headlock_filter_report_to_groups( $groups ){
 }
 add_filter( 'headlock_reporting_to', 'headlock_filter_report_to_groups', 1);
 
+function headlock_filter_nel( $nel ){
+    $nel = array(
+        'default',
+        '60'
+    );
+    return $nel;
+}
+add_filter( 'headlock_nel', 'headlock_filter_nel', 1);
  /*
   * Example of Adding a new source to CSP
   * In this case we are allowing requests from https://timnash.co.uk to be available for use in the policy
