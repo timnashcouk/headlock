@@ -42,16 +42,7 @@ add_action( 'plugins_loaded', 'headlock_auto_loader' );
  */
 function headlock_enabled_security_headers() {
 
-	// Enable Safe to use headers
-	$enabled_security_headers = array(
-		'x_frame_options',
-		'x_xss_protection',
-		'x_content_type_options',
-		'referrer_policy',
-	);
-
-	// Filter to enable additional options such as HSTS or CSP
-	$enabled_security_headers = apply_filters( 'headlock_enabled_security_headers', $enabled_security_headers );
+	$enabled_security_headers = headlock_available_security_headers();
 
 	if ( is_array( $enabled_security_headers ) ) {
 		foreach ( $enabled_security_headers as $security_header ) {
@@ -83,6 +74,19 @@ function headlock_enabled_security_headers() {
 }
 
 add_action( 'send_headers', 'headlock_enabled_security_headers' );
+
+function headlock_available_security_headers() {
+	// Enable Safe to use headers
+	$enabled_security_headers = array(
+		'x_frame_options',
+		'x_xss_protection',
+		'x_content_type_options',
+		'referrer_policy',
+	);
+
+	// Filter to enable additional options such as HSTS or CSP
+	return apply_filters( 'headlock_enabled_security_headers', $enabled_security_headers );
+}
 
 /*
  * Debug notice, to allow developers to be notified of failing filters
