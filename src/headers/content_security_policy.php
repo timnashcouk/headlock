@@ -19,8 +19,8 @@ function headlock_content_security_policy() {
 		'report_only' => true, //Sets which header we are using
 		'report_uri'  => false,
 		'fetch'       => array(
-			'default_src'  => 'self',
-			'connect_src'  => false,
+			'default-src'  => 'self',
+			'connect-src'  => false,
 			'font-src'     => false,
 			'frame-src'    => false,
 			'img-src'      => false,
