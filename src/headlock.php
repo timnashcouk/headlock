@@ -116,8 +116,12 @@ function _headlock_debug_helper( ?string $filter = 'Headlock', ?string $debug, $
  */
 function _headlock_encode_values( ?string $value, array $sources ) {
 	if ( ! empty( $value ) && in_array( $value, $sources, true ) ) {
+        /*
+         * CSP are messy, URLS shouldn't be encoded including wildcards
+         * Most other things should except if a schema ending with :
+         */
 		if ( false === filter_var( $value, FILTER_VALIDATE_URL ) ) {
-            if(false === strpos($value, '*' ) ){
+            if( false === strpos( $value, '*' ) && ':' !== substr( $value, -1 ) ){
                 $value = "'" . $value . "'";
             }
 		}
